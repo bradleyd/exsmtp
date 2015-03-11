@@ -19,7 +19,7 @@ defmodule Exsmtp.Handler do
   end
 
   def handle_HELO(hostname, state) do
-    :io.format("#{@smtp_requested_action_okay} HELO from #{hostname}~n")
+    IO.puts("#{@smtp_requested_action_okay} HELO from #{hostname}")
     {:ok, 655360, state}
   end
 
@@ -52,11 +52,11 @@ defmodule Exsmtp.Handler do
   end
 
   def handle_MAIL_extension(extension, _state) do
-    {:error, :io.format("Unknown MAIL FROM extension ~s~n", [extension])}
+    {:error, "Unknown MAIL FROM #{extension}"}
   end
 
   def handle_RCPT_extension(extension, _state) do
-    {:error, :io.format("Unknown RCPT TO extension ~s~n", [extension])}
+    {:error, "Unknown RCPT TO extension #{extension}"}
   end
 
   def handle_RSET(state) do
@@ -80,7 +80,7 @@ defmodule Exsmtp.Handler do
       :mimemail.decode(data)
     rescue
       reason ->
-        :io.format("Message decode FAILED with ~p:~n", [reason])
+        IO.puts("Message decode FAILED with #{reason}")
     end
   end
 end
